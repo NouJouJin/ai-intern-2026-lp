@@ -718,9 +718,34 @@ footer {
 }
 
 
-/* --- Audio Voices Section --- */
-.voices-audio {
+/* --- Podcast / Audio Section --- */
+.podcast-section {
     background-color: var(--surface-color);
+}
+
+.podcast-platforms {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.podcast-link {
+    display: inline-block;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.podcast-link:hover {
+    background-color: var(--primary-color);
+    color: var(--heading-color);
 }
 
 .audio-grid {

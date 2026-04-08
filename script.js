@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- ギミック2: スクロールに応じたフェードイン ---
-    const faders = document.querySelectorAll('.section, .problem-item, .strength-card, .output-card, .voice-card, .feedback-box, .req-item, .faq-item, .link-card, .audio-card, .current-intern-card');
+    const faders = document.querySelectorAll('.section, .problem-item, .strength-card, .output-card, .voice-card, .feedback-box, .req-item, .faq-item, .link-card, .audio-card, .current-intern-card, .podcast-link');
     const appearOptions = {
         threshold: 0,
         rootMargin: "0px 0px -100px 0px"
