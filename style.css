@@ -328,6 +328,114 @@ header .container {
     margin-bottom: 0;
 }
 
+/* Current Interns Section */
+.current-interns {
+    background-color: var(--surface-color);
+}
+
+.current-intern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.current-intern-card {
+    background-color: var(--bg-color);
+    padding: 30px;
+    border-radius: 10px;
+    border-top: 4px solid var(--primary-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.intern-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.intern-tag {
+    display: inline-block;
+    background-color: rgba(76, 175, 80, 0.15);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.intern-name {
+    color: var(--heading-color);
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+}
+
+.intern-role {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    margin: 0 0 20px 0;
+}
+
+.intern-project {
+    margin-bottom: 15px;
+}
+
+.intern-project strong {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.intern-project p {
+    margin: 5px 0 0 0;
+    font-size: 0.95rem;
+}
+
+.intern-achievement {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.intern-achievement strong {
+    color: var(--primary-color);
+}
+
+.intern-comment {
+    margin: 0 0 20px 0;
+    padding: 15px;
+    background-color: var(--surface-color);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+.intern-listen-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.intern-listen-link:hover {
+    color: var(--primary-hover);
+}
+
+.current-interns-cta {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.current-interns-cta-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+}
+
 /* Vibe Section */
 .solution-vibe {
     background-color: var(--surface-color);
@@ -610,9 +718,34 @@ footer {
 }
 
 
-/* --- Audio Voices Section --- */
-.voices-audio {
+/* --- Podcast / Audio Section --- */
+.podcast-section {
     background-color: var(--surface-color);
+}
+
+.podcast-platforms {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.podcast-link {
+    display: inline-block;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.podcast-link:hover {
+    background-color: var(--primary-color);
+    color: var(--heading-color);
 }
 
 .audio-grid {
@@ -675,6 +808,7 @@ footer {
     .strength-grid { grid-template-columns: 1fr; }
     .output-grid { grid-template-columns: 1fr; }
     .audio-grid { grid-template-columns: 1fr; }
+    .current-intern-grid { grid-template-columns: 1fr; }
     .req-grid { grid-template-columns: 1fr; }
     .btn-large { padding: 16px 32px; font-size: 1rem; }
     .cta-title { font-size: 1.5rem; }
@@ -706,6 +840,9 @@ footer {
     .voice-card { padding: 20px; }
     .voice-card blockquote { font-size: 1rem; }
     .audio-card { padding: 20px; }
+    .current-intern-card { padding: 20px; }
+    .intern-name { font-size: 1.2rem; }
+    .current-interns-cta-text { font-size: 1.1rem; }
     .feedback-box { padding: 20px; }
     .req-item { padding: 20px; }
     .faq-item { padding: 15px; }
