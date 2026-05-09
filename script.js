@@ -79,6 +79,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     viewTargets.forEach((element) => viewObserver.observe(element));
 
+    const countTargets = document.querySelectorAll('[data-count]');
+    const countObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            const target = entry.target;
+            const endValue = Number(target.dataset.count || 0);
+            const suffix = target.textContent.replace(/[0-9,]/g, '');
+            const formatter = new Intl.NumberFormat('ja-JP');
+            const startTime = performance.now();
+            const duration = 900;
+
+            const tick = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                target.textContent = `${formatter.format(Math.round(endValue * eased))}${suffix}`;
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                }
+            };
+
+            requestAnimationFrame(tick);
+            observer.unobserve(target);
+        });
+    }, {
+        threshold: 0.6
+    });
+
+    countTargets.forEach((element) => countObserver.observe(element));
+
     const scrollDepths = [25, 50, 75, 90];
     const sentDepths = new Set();
     const trackScrollDepth = () => {
@@ -93,6 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.addEventListener('scroll', trackScrollDepth, { passive: true });
+    let scrollTicking = false;
+    const updateDynamicScroll = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollable > 0 ? Math.min((window.scrollY / scrollable) * 100, 100) : 0;
+        document.body.style.setProperty('--scroll-progress', `${progress}%`);
+        document.body.style.setProperty('--hero-offset', `${Math.min(window.scrollY * 0.12, 80)}px`);
+        document.body.classList.toggle('has-scrolled', window.scrollY > 80);
+        scrollTicking = false;
+    };
+
+    const requestDynamicScrollUpdate = () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(updateDynamicScroll);
+    };
+
+    window.addEventListener('scroll', () => {
+        trackScrollDepth();
+        requestDynamicScrollUpdate();
+    }, { passive: true });
     trackScrollDepth();
+    updateDynamicScroll();
 });
