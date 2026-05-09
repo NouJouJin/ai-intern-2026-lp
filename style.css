@@ -8,11 +8,15 @@
     --surface-blue: #ecf3f7;
     --green: #1f6b44;
     --green-dark: #12402a;
+    --green-glow: rgba(31, 107, 68, 0.45);
     --amber: #d6962e;
+    --amber-soft: #f5c56a;
     --blue: #326f8d;
     --border: #d9dfd5;
     --shadow: 0 16px 44px rgba(23, 32, 27, 0.12);
     --radius: 8px;
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * {
@@ -90,34 +94,76 @@ a {
 }
 
 .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     min-height: 48px;
-    padding: 12px 20px;
+    padding: 12px 22px;
     border: 1px solid transparent;
     border-radius: var(--radius);
     font-weight: 900;
     font-size: 0.95rem;
     text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    overflow: hidden;
+    transition: transform 0.22s var(--ease-out-quart),
+                box-shadow 0.22s var(--ease-out-quart),
+                background-color 0.18s ease,
+                border-color 0.18s ease;
     white-space: nowrap;
+    isolation: isolate;
+}
+
+.btn::after {
+    content: "→";
+    display: inline-block;
+    margin-left: 2px;
+    font-weight: 900;
+    transform: translateX(0);
+    transition: transform 0.28s var(--ease-out-quart);
+}
+
+.btn:hover::after,
+.btn:focus-visible::after {
+    transform: translateX(4px);
 }
 
 .btn:hover,
 .btn:focus-visible {
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(23, 32, 27, 0.16);
+    box-shadow: 0 14px 32px rgba(23, 32, 27, 0.18);
 }
 
 .btn-primary {
-    background: var(--green);
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
     color: #fff;
+    box-shadow: 0 6px 18px rgba(18, 64, 42, 0.32);
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(120deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.28) 50%,
+        transparent 70%);
+    transform: translateX(-130%) skewX(-18deg);
+    transition: transform 0.7s var(--ease-out-expo);
+    pointer-events: none;
+}
+
+.btn-primary:hover::before,
+.btn-primary:focus-visible::before {
+    transform: translateX(130%) skewX(-18deg);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
-    background: var(--green-dark);
+    background: linear-gradient(135deg, var(--green-dark), #0a2c1c);
+    box-shadow: 0 18px 36px rgba(18, 64, 42, 0.4);
 }
 
 .btn-secondary {
@@ -204,10 +250,24 @@ body.has-scrolled .site-header {
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, rgba(13, 24, 18, 0.92), rgba(13, 24, 18, 0.74), rgba(13, 24, 18, 0.88)),
+        linear-gradient(90deg, rgba(13, 24, 18, 0.92), rgba(13, 24, 18, 0.7), rgba(13, 24, 18, 0.9)),
         url('https://metagri-labo.com/wp-content/uploads/2026/01/9b3ff052aa12056f6457990923f504b0.png') center / cover;
     transform: translateY(var(--hero-offset)) scale(1.04);
-    transition: transform 0.08s linear;
+    filter: blur(var(--hero-blur, 0));
+    transition: transform 0.08s linear, filter 0.2s linear;
+}
+
+.hero-media::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    background:
+        radial-gradient(60% 50% at 18% 30%, rgba(245, 197, 106, 0.28), transparent 60%),
+        radial-gradient(48% 42% at 78% 22%, rgba(50, 111, 141, 0.36), transparent 65%),
+        radial-gradient(55% 50% at 60% 80%, rgba(31, 107, 68, 0.42), transparent 70%);
+    filter: blur(8px);
+    animation: auroraDrift 22s ease-in-out infinite alternate;
+    pointer-events: none;
 }
 
 .hero-media::after {
@@ -248,6 +308,37 @@ body.has-scrolled .site-header {
     font-size: clamp(2.45rem, 6.2vw, 4.9rem);
     line-height: 1.06;
     font-weight: 900;
+    letter-spacing: -0.01em;
+    background: linear-gradient(120deg, #ffffff 0%, #ffffff 55%, #f5e0a6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+}
+
+.hero-title .kinetic-line {
+    display: block;
+    overflow: hidden;
+}
+
+.hero-title .kinetic-line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.hero.is-ready .hero-title .kinetic-line > span {
+    animation: kineticRise 0.95s var(--ease-out-expo) forwards;
+}
+
+.hero.is-ready .hero-title .kinetic-line:nth-child(2) > span {
+    animation-delay: 0.18s;
+}
+
+.hero.is-ready .hero-title .kinetic-line:nth-child(3) > span {
+    animation-delay: 0.32s;
 }
 
 .hero-description {
@@ -804,13 +895,15 @@ body.has-scrolled .mobile-sticky-cta {
 
 .fade-in {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(22px) scale(0.985);
+    transition: opacity 0.85s var(--ease-out-quart) var(--reveal-delay, 0ms),
+                transform 0.85s var(--ease-out-quart) var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
 }
 
 .fade-in.appear {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 @keyframes surfaceScan {
@@ -820,6 +913,382 @@ body.has-scrolled .mobile-sticky-cta {
     to {
         background-position: 180px 0;
     }
+}
+
+@keyframes auroraDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(1);   opacity: 0.85; }
+    50%  { transform: translate3d(2%, -3%, 0) scale(1.06); opacity: 1; }
+    100% { transform: translate3d(-3%, 2%, 0) scale(1.02); opacity: 0.9; }
+}
+
+@keyframes kineticRise {
+    0%   { transform: translateY(110%); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes scrollCue {
+    0%, 100% { transform: translateY(0); opacity: 0.55; }
+    50%      { transform: translateY(8px); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 197, 106, 0.5); }
+    50%      { box-shadow: 0 0 0 18px rgba(245, 197, 106, 0); }
+}
+
+@keyframes drawLine {
+    from { stroke-dashoffset: 100%; }
+    to   { stroke-dashoffset: 0; }
+}
+
+/* =========================================================
+ *  Dynamic enhancements (v2)
+ * ========================================================= */
+
+/* --- Hero scroll cue --- */
+.hero-scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.hero-scroll-cue span {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(245, 197, 106, 0.95));
+    animation: scrollCue 1.8s ease-in-out infinite;
+}
+
+@media (max-width: 760px) {
+    .hero-scroll-cue { display: none; }
+}
+
+/* --- Card pointer-tracked glow --- */
+.has-glow {
+    position: relative;
+    overflow: hidden;
+}
+
+.has-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        180px circle at var(--glow-x, 50%) var(--glow-y, -30%),
+        rgba(31, 107, 68, 0.18),
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.has-glow:hover::before,
+.has-glow:focus-within::before {
+    opacity: 1;
+}
+
+.has-glow > * {
+    position: relative;
+    z-index: 1;
+}
+
+.evidence-card.has-glow::before {
+    background: radial-gradient(
+        220px circle at var(--glow-x, 50%) var(--glow-y, -30%),
+        rgba(50, 111, 141, 0.22),
+        transparent 60%
+    );
+}
+
+.fit-card.is-not-fit.has-glow::before {
+    background: radial-gradient(
+        180px circle at var(--glow-x, 50%) var(--glow-y, -30%),
+        rgba(214, 150, 46, 0.22),
+        transparent 60%
+    );
+}
+
+/* --- Skills section: animated dot grid + accent --- */
+.skills {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.skills::before {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+    background-image:
+        radial-gradient(rgba(245, 197, 106, 0.18) 1px, transparent 1.4px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(circle at 50% 40%, #000 35%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 35%, transparent 75%);
+    animation: dotsDrift 28s linear infinite;
+    pointer-events: none;
+}
+
+.skills::after {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 197, 106, 0.22), transparent 60%);
+    filter: blur(8px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.skills > .container {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes dotsDrift {
+    from { background-position: 0 0; }
+    to   { background-position: 220px 220px; }
+}
+
+.skill-list div {
+    backdrop-filter: blur(6px);
+    transition: transform 0.28s var(--ease-out-quart),
+                background-color 0.28s ease,
+                border-color 0.28s ease;
+}
+
+.skill-list div:hover {
+    transform: translateY(-3px);
+    background: rgba(245, 197, 106, 0.16);
+    border-color: rgba(245, 197, 106, 0.5);
+}
+
+/* --- Flow connector line --- */
+.flow {
+    position: relative;
+    overflow: hidden;
+}
+
+.flow-steps {
+    position: relative;
+}
+
+.flow-steps::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--blue) 18%, var(--green) 82%, transparent 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.4s var(--ease-out-expo);
+    z-index: 0;
+    opacity: 0.5;
+}
+
+.flow-steps.connector-active::before {
+    transform: scaleX(1);
+}
+
+.flow-steps li {
+    z-index: 1;
+}
+
+@media (max-width: 1040px) {
+    .flow-steps::before { display: none; }
+}
+
+/* --- Numeric badges on cards --- */
+.card-number {
+    position: relative;
+    padding: 6px 10px;
+    margin-bottom: 18px;
+    color: var(--ink);
+    background: linear-gradient(135deg, var(--amber-soft), var(--amber));
+    border-radius: 999px;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 14px rgba(214, 150, 46, 0.32);
+}
+
+.experience-card:hover .card-number {
+    animation: pulseGlow 1.6s ease-out;
+}
+
+/* --- Section kicker accent --- */
+.section-kicker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-kicker::before {
+    content: "";
+    width: 26px;
+    height: 2px;
+    background: var(--green);
+    transition: width 0.5s var(--ease-out-quart);
+}
+
+.appear .section-kicker::before {
+    width: 46px;
+}
+
+.skills .section-kicker::before,
+.application-flow .section-kicker::before,
+.final-cta .section-kicker::before {
+    background: var(--amber-soft);
+}
+
+/* --- Final CTA: animated glow halo --- */
+.final-cta {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.final-cta::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    z-index: 0;
+    background:
+        radial-gradient(40% 35% at 25% 30%, rgba(245, 197, 106, 0.35), transparent 60%),
+        radial-gradient(38% 36% at 78% 70%, rgba(80, 200, 130, 0.28), transparent 65%);
+    animation: auroraDrift 18s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+.final-cta > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.final-cta .btn-primary {
+    box-shadow: 0 12px 32px rgba(245, 197, 106, 0.32);
+}
+
+/* --- Hero proof: animated gradient border --- */
+.hero-proof {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-proof::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        rgba(245, 197, 106, 0.55),
+        transparent 35%,
+        transparent 65%,
+        rgba(80, 200, 130, 0.55));
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.hero-proof dt {
+    background: linear-gradient(120deg, #ffffff, var(--amber-soft));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* --- Mobile sticky CTA: subtle uplift --- */
+.mobile-sticky-cta {
+    box-shadow: 0 -10px 28px rgba(23, 32, 27, 0.16);
+}
+
+/* --- Statement list: connector dots --- */
+.statement-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.statement-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--green), var(--amber));
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s var(--ease-out-quart);
+}
+
+.statement-item.appear::before {
+    transform: scaleY(1);
+}
+
+/* --- Header: scroll-aware compact --- */
+body.has-scrolled .site-header {
+    background: rgba(247, 246, 239, 0.96);
+}
+
+body.has-scrolled .header-inner {
+    min-height: 64px;
+}
+
+body.has-scrolled .logo-image {
+    width: 148px;
+}
+
+/* --- Form frame: subtle highlight --- */
+.form-frame {
+    position: relative;
+    transition: box-shadow 0.3s var(--ease-out-quart);
+}
+
+.form-frame:focus-within {
+    box-shadow: 0 0 0 4px rgba(31, 107, 68, 0.18),
+                0 18px 46px rgba(23, 32, 27, 0.12);
+}
+
+/* --- Reduce motion respect --- */
+@media (prefers-reduced-motion: reduce) {
+    .hero-media::before,
+    .skills::before,
+    .final-cta::before,
+    .hero-scroll-cue span {
+        animation: none !important;
+    }
+    .hero-title .kinetic-line > span {
+        transform: none !important;
+        opacity: 1 !important;
+        animation: none !important;
+    }
+    .flow-steps::before { transform: scaleX(1) !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
