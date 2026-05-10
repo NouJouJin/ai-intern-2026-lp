@@ -172,6 +172,18 @@ a {
     color: var(--green-dark);
 }
 
+.btn-line {
+    background: #06c755;
+    color: #fff;
+    border-color: #06c755;
+}
+
+.btn-line:hover,
+.btn-line:focus-visible {
+    background: #05b44d;
+    border-color: #05b44d;
+}
+
 .btn-large {
     min-height: 56px;
     padding: 15px 24px;
@@ -622,6 +634,10 @@ body.has-scrolled .site-header {
     border-color: rgba(255, 255, 255, 0.32);
 }
 
+.skills .btn-line {
+    box-shadow: none;
+}
+
 .principles {
     background: var(--paper-strong);
 }
@@ -825,7 +841,7 @@ body.has-scrolled .site-header {
 }
 
 .link-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .link-card {
