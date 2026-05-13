@@ -179,13 +179,13 @@
     /* ---------- Reveal on intersection (with stagger via index) ---------- */
     function bindReveal() {
         const targets = document.querySelectorAll(
-            '.section, .experience-card, .evidence-card, .principle-grid article, .flow-steps li, .fit-card, .requirements-grid > div, .faq-item, .link-card, .skill-list div, .application-list li, .statement-item'
+            '.section, .experience-card, .evidence-card, .principle-grid article, .flow-steps li, .voice-card, .voice-proof-item, .fit-card, .requirements-grid > div, .faq-item, .link-card, .skill-list div, .application-list li, .statement-item'
         );
         targets.forEach((el) => el.classList.add('fade-in'));
 
         // assign sibling-index for staggered reveal
         document.querySelectorAll(
-            '.experience-grid, .evidence-grid, .principle-grid, .flow-steps, .fit-grid, .requirements-grid, .faq-grid, .link-grid, .skill-list, .application-list, .statement-list'
+            '.experience-grid, .evidence-grid, .principle-grid, .flow-steps, .voices-grid, .voice-proof-grid, .fit-grid, .requirements-grid, .faq-grid, .link-grid, .skill-list, .application-list, .statement-list'
         ).forEach((parent) => {
             Array.from(parent.children).forEach((child, i) => {
                 child.style.setProperty('--reveal-delay', (i * 60) + 'ms');
