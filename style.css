@@ -1964,8 +1964,8 @@ body.has-scrolled .mobile-sticky-cta {
 }
 .hero-media {
     inset: 0 0 0 55%;
-    background: linear-gradient(90deg, #f3f8ed, transparent 35%), url('assets/farm-collaboration.jpg') center / cover;
-    opacity: .75;
+    background: linear-gradient(90deg, #f3f8ed, rgba(243, 248, 237, 0) 22%), url('assets/hero-illustration.jpg') center top / cover no-repeat;
+    opacity: 1;
 }
 .hero-grid {
     position: relative;
@@ -1992,7 +1992,16 @@ body.has-scrolled .mobile-sticky-cta {
 .hero-proof { display: none; }
 @media (max-width: 767px) {
     .hero { aspect-ratio: auto; }
-    .hero-media { display: none; }
+    .hero-media {
+        display: block;
+        position: relative;
+        inset: auto;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        max-height: 78vh;
+        background: linear-gradient(180deg, rgba(243, 248, 237, 0) 80%, #f3f8ed), url('assets/hero-illustration-mobile.jpg') center top / cover no-repeat;
+        opacity: 1;
+    }
     .hero-grid { width: calc(100% - 40px); padding: 40px 0; }
     .hero .hero-title { font-size: 30px; }
     .hero .hero-description { font-size: 16px; }
