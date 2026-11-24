@@ -13,15 +13,15 @@
     const VARIANTS = {
         badmove: {
             title: '当てはまった人へ。<br>AI時代に残る経験を積もう。',
-            description: '学生対象・リモート中心。農家の課題を調べ、AIで試し、調査メモや原稿を共有して改善するインターンです。担当範囲は関心と活動時間を踏まえて相談します。'
+            description: '学生対象・リモート中心。農家の声を記事にするメディア運用と、読書会や勉強会を支えるコミュニティ運営から、関心のあるコースを選べます。'
         },
         niche: {
             title: '普通のインターンでは<br>物足りない人へ。',
-            description: '学生対象・リモート中心。AI調査・検証、発信、コミュニティ運営などから、担当範囲を相談して実務に取り組みます。'
+            description: '学生対象・リモート中心。AIで調べて記事にするメディア運用、Discordで学びの場をつくるコミュニティ運営の2コースです。'
         },
         future: {
             title: '3年後に効く経験を、<br>今から積む。',
-            description: '学生対象・リモート中心。AIに聞いて終わらせず、農家の課題に照らして検証し、成果物とログを残す経験を重ねます。'
+            description: '学生対象・リモート中心。農家の課題を調べて記事にしたり、読書会を企画して参加者の声を次回につないだり。2つのコースで実務に取り組みます。'
         }
     };
 
@@ -185,7 +185,7 @@
 
         // assign sibling-index for staggered reveal
         document.querySelectorAll(
-            '.experience-grid, .evidence-grid, .principle-grid, .flow-steps, .voices-grid, .voice-proof-grid, .fit-grid, .requirements-grid, .faq-grid, .link-grid, .skill-list, .application-list, .statement-list'
+            '.course-grid, .evidence-grid, .principle-grid, .flow-steps, .voices-grid, .voice-proof-grid, .fit-grid, .requirements-grid, .faq-grid, .link-grid, .skill-list, .application-list, .statement-list'
         ).forEach((parent) => {
             Array.from(parent.children).forEach((child, i) => {
                 child.style.setProperty('--reveal-delay', (i * 60) + 'ms');
